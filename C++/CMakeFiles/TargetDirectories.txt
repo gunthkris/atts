@@ -1,0 +1,3 @@
+/home/sentry/Desktop/ATTS/CMakeFiles/rebuild_cache.dir
+/home/sentry/Desktop/ATTS/CMakeFiles/DepthMap.dir
+/home/sentry/Desktop/ATTS/CMakeFiles/edit_cache.dir
