@@ -134,7 +134,7 @@ def depth_map(imgL, imgR):
         preFilterCap=63,
         mode=cv.STEREO_SGBM_MODE_SGBM_3WAY
     )
-    right_matcher = cv2.ximgproc.createRightMatcher(left_matcher)
+    right_matcher = cv.ximgproc.createRightMatcher(left_matcher)
     # FILTER Parameters
     lmbda = 80000
     sigma = 1.3
@@ -150,7 +150,7 @@ def depth_map(imgL, imgR):
     dispr = np.int16(dispr)
     filteredImg = wls_filter.filter(displ, imgL, None, dispr)  # important to put "imgL" here!!!
 
-    filteredImg = cv2.normalize(src=filteredImg, dst=filteredImg, beta=0, alpha=255, norm_type=cv2.NORM_MINMAX);
+    filteredImg = cv.normalize(src=filteredImg, dst=filteredImg, beta=0, alpha=255, norm_type=cv2.NORM_MINMAX);
     filteredImg = np.uint8(filteredImg)
 
     return filteredImg
@@ -160,6 +160,8 @@ while (True):
     # grab the current frame
     _, leftFrame = left.read()
     _, rightFrame = right.read()
+
+    dm = depth_map(leftFrame, rightFrame)
 
     # blur frame, and convert it to the HSV
     leftblurred = cv.GaussianBlur(leftFrame, (11, 11), 0)  
@@ -210,6 +212,7 @@ while (True):
     # show the frame to our screen
     cv.imshow("LeftFrame", leftFrame)
     cv.imshow("RightFrame", rightFrame)
+    cv.imshow("Depth Map", dm)
     key = cv.waitKey(1) & 0xFF
     counter+=1
 

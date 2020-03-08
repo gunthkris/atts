@@ -6,7 +6,9 @@ import argparse
 import cv2 as cv
 import time, sys
 import imutils
- 
+import tkinter as tk
+import threading
+
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-b", "--buffer", type=int, default=54,
@@ -16,8 +18,8 @@ args = vars(ap.parse_args())
 # define the lower and upper boundaries of the "green"
 # ball in the HSV color space, then initialize the
 # list of tracked points
-greenLower = (50, 86, 30)
-greenUpper = (64, 255, 255)
+greenLower = (40, 86, 70)
+greenUpper = (80, 255, 255)
 
 # initialize the list of tracked points, the frame counter,
 # and the coordinate deltas
@@ -50,6 +52,37 @@ left.set(cv.CAP_PROP_FRAME_HEIGHT, 480)  # float
 
 # allow the camera or video file to warm up
 time.sleep(2.0)
+
+# Sliders
+def dispSliders():
+    root = tk.Tk()
+    root.title("Disparity Settings")
+
+    wsize = tk.Scale(root, from_=3, to=20, resolution=1, orient=tk.HORIZONTAL)
+    minD = tk.Scale(root, from_=-60, to=100, resolution=1, orient=tk.HORIZONTAL)
+    numD = tk.Scale(root, from_=112, to=256, resolution=16, orient=tk.HORIZONTAL)
+    P1_ = tk.Scale(root, from_=3, to=30, resolution=1, orient=tk.HORIZONTAL)
+    P2_ = tk.Scale(root, from_=32, to=128, resolution=1, orient=tk.HORIZONTAL)
+    d12Maxd = tk.Scale(root, from_=2, to=24, resolution=1, orient=tk.HORIZONTAL)
+    uniqR = tk.Scale(root, from_=2, to=24, resolution=1, orient=tk.HORIZONTAL)
+    speckWsize = tk.Scale(root, from_=1, to=256, resolution=1, orient=tk.HORIZONTAL)
+    speckR = tk.Scale(root, from_=1, to=128, resolution=1, orient=tk.HORIZONTAL)
+    preFC = tk.Scale(root, from_=1, to=128, resolution=1, orient=tk.HORIZONTAL)
+    wsize.pack()
+    minD.pack()
+    numD.pack()
+    P1_.pack()
+    P2_pack()
+    d12Maxd.pack()
+    uniqR.pack()
+    speckWsize.pack()
+    speckR.pack()
+    preFC.pack()
+
+    root.mainloop()
+
+dispSlide = threading.Thread(target=dispSliders)
+dispSlide.start()
 
 def trackedObjectXYcoord (frame, cnts, fdX, fdY, pts, direction):
     # Set default (x, y) position if no target on screen
@@ -116,20 +149,20 @@ def trackedObjectXYcoord (frame, cnts, fdX, fdY, pts, direction):
     return (fdX, fdY, pts, direction, cx, cy)
 
 def depth_map(imgL, imgR):
-    """ Depth map calculation. Works with SGBM and WLS. Need rectified images, returns depth map ( left to right disparity ) """
+    """ Depth map calculation. Works with SGBM and WLS. Need rectified images,
+    #returns depth map ( left to right disparity ) """
     # SGBM Parameters -----------------
     window_size = 3  # wsize default 3; 5; 7 for SGBM reduced size image; 15 for SGBM full size image (1300px and above); 5 Works nicely
 
     stereo = cv.StereoSGBM_create(
-        minDisparity=-1,
-        numDisparities=5*16,  # max_disp has to be dividable by 16 f. E. HH 192, 256
+        minDisparity=-40,
+        numDisparities=9*16,  # max_disp has to be dividable by 16 f. E. HH 192, 256
         blockSize=window_size,
-        P1=8 * 3 * window_size,
-        # wsize default 3; 5; 7 for SGBM reduced size image; 15 for SGBM full size image (1300px and above); 5 Works nicely
-        P2=32 * 3 * window_size,
+        P1=24 * 3 * window_size,
+        P2=72 * 3 * window_size,
         disp12MaxDiff=12,
         uniquenessRatio=10,
-        speckleWindowSize=50,
+        speckleWindowSize=120,
         speckleRange=32,
         preFilterCap=63,
         mode=cv.STEREO_SGBM_MODE_SGBM_3WAY
@@ -138,8 +171,13 @@ def depth_map(imgL, imgR):
     leftGr = cv.cvtColor(imgL, cv.COLOR_BGR2GRAY)
     rightGr = cv.cvtColor(imgR, cv.COLOR_BGR2GRAY)
 ##    cv.imshow("Gray Left", leftGr)
+##    cv.imshow("Gray Right", rightGr)
 
-    filteredImg = stereo.compute(leftGr, rightGr).astype(np.float32)/16
+    disparity = stereo.compute(leftGr, rightGr) #.astype(np.float32)/16
+    cv.filterSpeckles(disparity, 0, 32, 80)
+
+    _, disparity = cv.threshold(disparity, 0, 80 * 16, cv.THRESH_TOZERO)
+    disparity_scaled = (disparity / 16.).astype(np.uint8)
 ##    # FILTER Parameters
 ##    lmbda = 80000
 ##    sigma = 1.3
@@ -158,7 +196,7 @@ def depth_map(imgL, imgR):
 ##    filteredImg = cv.normalize(src=filteredImg, dst=filteredImg, beta=0, alpha=255, norm_type=cv2.NORM_MINMAX);
 ##    filteredImg = np.uint8(filteredImg)
 
-    return filteredImg
+    return disparity_scaled
 
 # MAIN PROGRAM LOOP
 while (True):
@@ -213,10 +251,10 @@ while (True):
     cv.putText(rightFrame, "x: {}, y: {}".format(rx, ry),
     (10, rightFrame.shape[0] - 10), cv.FONT_HERSHEY_SIMPLEX,
     0.65, (0, 0, 255), 1)
-            
+    
     # show the frame to our screen
-    cv.imshow("LeftFrame", leftFrame)
-    cv.imshow("RightFrame", rightFrame)
+##    cv.imshow("LeftFrame", leftFrame)
+##    cv.imshow("RightFrame", rightFrame)
     cv.imshow("Depth Map", dm)
     key = cv.waitKey(1) & 0xFF
     counter+=1
