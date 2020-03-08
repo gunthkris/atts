@@ -75,12 +75,12 @@ def dispSliders():
     root.title("Disparity Settings")
 
     wsize_ = tk.Scale(root, from_=1, to=33, resolution=2,
-                      orient=tk.HORIZONTAL, label="Window Size")
+                      orient=tk.HORIZONTAL, label="SAD Window Size")
     wsize_.set(wsize)
     minD_ = tk.Scale(root, from_=-100, to=100, resolution=1,
                      orient=tk.HORIZONTAL, label="Min Disparity")
     minD_.set(minD)
-    numD_ = tk.Scale(root, from_=0, to=320, resolution=16,
+    numD_ = tk.Scale(root, from_=0, to=480, resolution=16,
                      orient=tk.HORIZONTAL, label="Num Disparity")
     numD_.set(numD)
     P1__ = tk.Scale(root, from_=3, to=12, resolution=1,
@@ -212,8 +212,8 @@ def depth_map(imgL, imgR):
         minDisparity=minD_.get(),
         numDisparities=numD_.get(),  # max_disp has to be dividable by 16 f. E. HH 192, 256
         blockSize=window_size,
-        P1=P1__.get() * 3 * window_size,
-        P2=P2__.get() * 3 * window_size,
+        P1=P1__.get() * 3 ** window_size,
+        P2=P2__.get() * 3 ** window_size,
         disp12MaxDiff=d12Maxd_.get(),
         uniquenessRatio=uniqR_.get(),
         speckleWindowSize=speckWsize_.get(),
@@ -229,8 +229,8 @@ def depth_map(imgL, imgR):
     #     minDisparity=minD,
     #     numDisparities=numD,  # max_disp has to be dividable by 16 f. E. HH 192, 256
     #     blockSize=window_size,
-    #     P1=P1_ * 3 * window_size,
-    #     P2=P2_ * 3 * window_size,
+    #     P1=P1_ * 3 ** window_size,
+    #     P2=P2_ * 3 ** window_size,
     #     disp12MaxDiff=d12Maxd,
     #     uniquenessRatio=uniqR,
     #     speckleWindowSize=speckWsize,
@@ -246,10 +246,12 @@ def depth_map(imgL, imgR):
     # cv.imshow("Gray Right", rightGr)
 
     disparity = stereo.compute(leftGr, rightGr)  # .astype(np.float32)/16
-    cv.filterSpeckles(disparity, 0, 32, numD_.get())
 
-    _, disparity = cv.threshold(disparity, 0, numD_.get(), cv.THRESH_TOZERO)
-    disparity_scaled = (disparity / 16.).astype(np.uint8)
+    # cv.filterSpeckles(disparity, 0, 32, numD_.get())
+
+    # _, disparity = cv.threshold(disparity, 0, numD_.get(), cv.THRESH_TOZERO)
+    # disparity_scaled = (disparity / 16.).astype(np.uint8)
+
     # FILTER Parameters
     # lmbda = 80000
     # sigma = 1.3
@@ -268,7 +270,7 @@ def depth_map(imgL, imgR):
     # filteredImg = cv.normalize(src=filteredImg, dst=filteredImg, beta=0, alpha=255, norm_type=cv2.NORM_MINMAX);
     # filteredImg = np.uint8(filteredImg)
 
-    return disparity_scaled
+    return disparity
 
 
 # MAIN PROGRAM LOOP
@@ -279,7 +281,7 @@ while (True):
 
     # Methods of depth map, comment out if not needed
     dm = depth_map(leftFrame, rightFrame)
-    matplotDisp(leftFrame, rightFrame)
+    # matplotDisp(leftFrame, rightFrame)
 
     # blur frame, and convert it to the HSV
     leftblurred = cv.GaussianBlur(leftFrame, (11, 11), 0)
