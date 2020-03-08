@@ -115,8 +115,8 @@ def dispSliders():
 
     root.mainloop()
 
-# dispSlide = threading.Thread(target=dispSliders)
-# dispSlide.start()
+dispSlide = threading.Thread(target=dispSliders)
+dispSlide.start()
 
 
 def trackedObjectXYcoord(frame, cnts, fdX, fdY, pts, direction):
