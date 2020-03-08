@@ -7,13 +7,15 @@ import cv2 as cv
 import time
 import sys
 import imutils
-import tkinter as tk
-import threading
+import tkinter as tk  # Used for GUI Tinkering
+import threading  # Used for GUI tinkering
+
+from matplotlib import pyplot as plt
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-b", "--buffer", type=int, default=54,
-    help="max buffer size")
+                help="max buffer size")
 args = vars(ap.parse_args())
 
 # define the lower and upper boundaries of the "green"
@@ -39,8 +41,8 @@ left = cv.VideoCapture(0, cv.CAP_V4L2)
 right = cv.VideoCapture(1, cv.CAP_V4L2)
 # If we can't get images from both sources, error
 if not left.isOpened() and not right.isOpened():
-        print("Can't opened the streams!")
-        sys.exit(-9)
+    print("Can't opened the streams!")
+    sys.exit(-9)
 
 # Set fps
 left.set(5, 30)
@@ -57,7 +59,7 @@ time.sleep(2.0)
 # Sliders
 wsize = 3
 minD = -40
-numD = 128
+numD = 100
 P1_ = 8
 P2_ = 32
 d12Maxd = 12
@@ -72,13 +74,13 @@ def dispSliders():
     root = tk.Tk()
     root.title("Disparity Settings")
 
-    wsize_ = tk.Scale(root, from_=3, to=20, resolution=1,
+    wsize_ = tk.Scale(root, from_=1, to=33, resolution=2,
                       orient=tk.HORIZONTAL, label="Window Size")
     wsize_.set(wsize)
-    minD_ = tk.Scale(root, from_=-60, to=100, resolution=1,
+    minD_ = tk.Scale(root, from_=-100, to=100, resolution=1,
                      orient=tk.HORIZONTAL, label="Min Disparity")
     minD_.set(minD)
-    numD_ = tk.Scale(root, from_=100, to=320, resolution=16,
+    numD_ = tk.Scale(root, from_=0, to=320, resolution=16,
                      orient=tk.HORIZONTAL, label="Num Disparity")
     numD_.set(numD)
     P1__ = tk.Scale(root, from_=3, to=12, resolution=1,
@@ -115,8 +117,17 @@ def dispSliders():
 
     root.mainloop()
 
+
 dispSlide = threading.Thread(target=dispSliders)
 dispSlide.start()
+
+
+def matplotDisp(imgL, imgR):
+    stereo = cv.StereoBM(1, 16, 15)
+    disparity = stereo.compute(imgL, imgR)
+
+    plt.imshow(disparity, "Matplot Depth")
+    plt.show()
 
 
 def trackedObjectXYcoord(frame, cnts, fdX, fdY, pts, direction):
@@ -189,20 +200,21 @@ def depth_map(imgL, imgR):
     # returns depth map ( left to right disparity ) """
     # SGBM Parameters -----------------
     # LOAD from adjustable sliders
-    window_size = wsize_.get()  # wsize default 3; 5; 7 for SGBM reduced size image; 15 for SGBM full size image (1300px and above); 5 Works nicely
+    # wsize default 3; 5; 7 for SGBM reduced size image; 15 for SGBM full size image (1300px and above); 5 Works nicely
+    window_size = wsize_.get()
     stereo = cv.StereoSGBM_create(
-       minDisparity=minD_.get(),
-       numDisparities=numD_.get(),  # max_disp has to be dividable by 16 f. E. HH 192, 256
-       blockSize=window_size,
-       P1=P1__.get() * 3 * window_size,
-       P2=P2__.get() * 3 * window_size,
-       disp12MaxDiff=d12Maxd_.get(),
-       uniquenessRatio=uniqR_.get(),
-       speckleWindowSize=speckWsize_.get(),
-       speckleRange=speckR_.get(),
-       preFilterCap=preFC_.get(),
-       mode=cv.STEREO_SGBM_MODE_SGBM_3WAY
-   )
+        minDisparity=minD_.get(),
+        numDisparities=numD_.get(),  # max_disp has to be dividable by 16 f. E. HH 192, 256
+        blockSize=window_size,
+        P1=P1__.get() * 3 * window_size,
+        P2=P2__.get() * 3 * window_size,
+        disp12MaxDiff=d12Maxd_.get(),
+        uniquenessRatio=uniqR_.get(),
+        speckleWindowSize=speckWsize_.get(),
+        speckleRange=speckR_.get(),
+        preFilterCap=preFC_.get(),
+        mode=cv.STEREO_SGBM_MODE_SGBM_3WAY
+    )
     # END adjustable sliders
 
     # LOAD ONLY DEFAULT VALUES (from above) SGBM Parameters
@@ -221,13 +233,13 @@ def depth_map(imgL, imgR):
     #     mode=cv.STEREO_SGBM_MODE_SGBM_3WAY
     # )
     # END LOAD DEFAULT VALUES
-    
+
     leftGr = cv.cvtColor(imgL, cv.COLOR_BGR2GRAY)
     rightGr = cv.cvtColor(imgR, cv.COLOR_BGR2GRAY)
     # cv.imshow("Gray Left", leftGr)
     # cv.imshow("Gray Right", rightGr)
 
-    disparity = stereo.compute(leftGr, rightGr)#.astype(np.float32)/16
+    disparity = stereo.compute(leftGr, rightGr)  # .astype(np.float32)/16
     cv.filterSpeckles(disparity, 0, 32, numD_.get())
 
     _, disparity = cv.threshold(disparity, 0, numD_.get(), cv.THRESH_TOZERO)
@@ -252,6 +264,7 @@ def depth_map(imgL, imgR):
 
     return disparity_scaled
 
+
 # MAIN PROGRAM LOOP
 while (True):
     # grab the current frame
@@ -259,12 +272,13 @@ while (True):
     _, rightFrame = right.read()
 
     dm = depth_map(leftFrame, rightFrame)
-        
+    matplotDisp(leftFrame, rightFrame)
+
     # blur frame, and convert it to the HSV
-    leftblurred = cv.GaussianBlur(leftFrame, (11, 11), 0)  
+    leftblurred = cv.GaussianBlur(leftFrame, (11, 11), 0)
     rightblurred = cv.GaussianBlur(rightFrame, (11, 11), 0)
     lefthsv = cv.cvtColor(leftblurred, cv.COLOR_BGR2HSV)
-    righthsv = cv.cvtColor(rightblurred, cv.COLOR_BGR2HSV) 
+    righthsv = cv.cvtColor(rightblurred, cv.COLOR_BGR2HSV)
 
     # construct a mask for the color "green", then perform
     # a series of dilations and erosions to remove any small
@@ -279,39 +293,41 @@ while (True):
 
     # find contours in the mask and initialize the current (x, y) center of the ball
     leftcnts = cv.findContours(leftmask.copy(), cv.RETR_EXTERNAL,
-        cv.CHAIN_APPROX_SIMPLE)
+                               cv.CHAIN_APPROX_SIMPLE)
     leftcnts = imutils.grab_contours(leftcnts)
     leftcenter = None
 
     rightcnts = cv.findContours(rightmask.copy(), cv.RETR_EXTERNAL,
-        cv.CHAIN_APPROX_SIMPLE)
+                                cv.CHAIN_APPROX_SIMPLE)
     rightcnts = imutils.grab_contours(rightcnts)
     rightcenter = None
-    
+
     # Call function for left frame
-    (ldX, ldY, lpts, ldirection, lx, ly) = trackedObjectXYcoord (leftFrame, leftcnts, ldX, ldY, lpts, ldirection)
+    (ldX, ldY, lpts, ldirection, lx, ly) = trackedObjectXYcoord(
+        leftFrame, leftcnts, ldX, ldY, lpts, ldirection)
     # show the movement deltas and the direction of movement on the frame
     cv.putText(leftFrame, ldirection, (10, 30), cv.FONT_HERSHEY_SIMPLEX,
-    0.65, (0, 0, 255), 3)
+               0.65, (0, 0, 255), 3)
     cv.putText(leftFrame, "x: {}, y: {}".format(lx, ly),
-    (10, leftFrame.shape[0] - 10), cv.FONT_HERSHEY_SIMPLEX,
-    0.65, (0, 0, 255), 1)
-    
+               (10, leftFrame.shape[0] - 10), cv.FONT_HERSHEY_SIMPLEX,
+               0.65, (0, 0, 255), 1)
+
     # Call function for right frame
-    (rdX, rdY, rpts, rdirection, rx, ry) = trackedObjectXYcoord (rightFrame, rightcnts, rdX, rdY, rpts, rdirection)
+    (rdX, rdY, rpts, rdirection, rx, ry) = trackedObjectXYcoord(
+        rightFrame, rightcnts, rdX, rdY, rpts, rdirection)
     # show the movement deltas and the direction of movement on the frame
     cv.putText(rightFrame, rdirection, (10, 30), cv.FONT_HERSHEY_SIMPLEX,
-    0.65, (0, 0, 255), 3)
+               0.65, (0, 0, 255), 3)
     cv.putText(rightFrame, "x: {}, y: {}".format(rx, ry),
-    (10, rightFrame.shape[0] - 10), cv.FONT_HERSHEY_SIMPLEX,
-    0.65, (0, 0, 255), 1)
-    
+               (10, rightFrame.shape[0] - 10), cv.FONT_HERSHEY_SIMPLEX,
+               0.65, (0, 0, 255), 1)
+
     # show the frame to our screen
     cv.imshow("LeftFrame", leftFrame)
     cv.imshow("RightFrame", rightFrame)
     cv.imshow("Depth Map", dm)
     key = cv.waitKey(1) & 0xFF
-    counter+=1
+    counter += 1
 
     # if the 'q' key is pressed, stop the loop
     if key == ord("q"):
