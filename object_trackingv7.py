@@ -228,9 +228,9 @@ def depth_map(imgL, imgR):
     # cv.imshow("Gray Right", rightGr)
 
     disparity = stereo.compute(leftGr, rightGr)#.astype(np.float32)/16
-    cv.filterSpeckles(disparity, 0, 32, numD)
+    cv.filterSpeckles(disparity, 0, 32, numD_.get())
 
-    _, disparity = cv.threshold(disparity, 0, numD, cv.THRESH_TOZERO)
+    _, disparity = cv.threshold(disparity, 0, numD_.get(), cv.THRESH_TOZERO)
     disparity_scaled = (disparity / 16.).astype(np.uint8)
     # FILTER Parameters
     # lmbda = 80000
