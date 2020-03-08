@@ -20,7 +20,7 @@ args = vars(ap.parse_args())
 
 # define the lower and upper boundaries of the "green"
 # ball in the HSV color space, then initialize the
-# list of tracked points
+# list of tracked points (180, 255, 255) max values
 greenLower = (40, 86, 70)
 greenUpper = (80, 255, 255)
 
@@ -40,7 +40,7 @@ rdirection = ""
 left = cv.VideoCapture(0, cv.CAP_V4L2)
 right = cv.VideoCapture(1, cv.CAP_V4L2)
 # If we can't get images from both sources, error
-if not left.isOpened() and not right.isOpened():
+if not left.isOpened() or not right.isOpened():
     print("Can't opened the streams!")
     sys.exit(-9)
 
@@ -118,16 +118,22 @@ def dispSliders():
     root.mainloop()
 
 
+# Start GUI Disparity Settings
 dispSlide = threading.Thread(target=dispSliders)
 dispSlide.start()
 
 
 def matplotDisp(imgL, imgR):
-    stereo = cv.StereoBM(1, 16, 15)
-    disparity = stereo.compute(imgL, imgR)
-
+    print("start")
+    stereo = cv.StereoBM_create(0, 15)
+    print("stereo")
+    leftGr = cv.cvtColor(imgL, cv.COLOR_BGR2GRAY)
+    rightGr = cv.cvtColor(imgR, cv.COLOR_BGR2GRAY)
+    disparity = stereo.compute(leftGr, rightGr)
+    print("hi")
     plt.imshow(disparity, "Matplot Depth")
     plt.show()
+    print("and done")
 
 
 def trackedObjectXYcoord(frame, cnts, fdX, fdY, pts, direction):
