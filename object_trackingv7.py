@@ -56,7 +56,7 @@ left.set(cv.CAP_PROP_FRAME_HEIGHT, 480)  # float
 # allow the camera or video file to warm up
 time.sleep(2.0)
 
-# Sliders
+# Sliders default values
 wsize = 3
 minD = -40
 numD = 100
@@ -68,7 +68,7 @@ speckWsize = 50
 speckR = 32
 preFC = 63
 
-
+# GUI for Disparity Settings
 def dispSliders():
     global wsize_, minD_, numD_, P1__, P2__, d12Maxd_, uniqR_, speckWsize_, speckR_, preFC_
     root = tk.Tk()
@@ -122,7 +122,7 @@ def dispSliders():
 dispSlide = threading.Thread(target=dispSliders)
 dispSlide.start()
 
-
+# Another method to try calculating depth map
 def matplotDisp(imgL, imgR):
     print("start")
     stereo = cv.StereoBM_create(0, 15)
@@ -277,6 +277,7 @@ while (True):
     _, leftFrame = left.read()
     _, rightFrame = right.read()
 
+    # Methods of depth map, comment out if not needed
     dm = depth_map(leftFrame, rightFrame)
     matplotDisp(leftFrame, rightFrame)
 
