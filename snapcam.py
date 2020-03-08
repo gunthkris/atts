@@ -1,20 +1,20 @@
 import cv2
 
-camL = cv2.VideoCapture(0) # Cam L
-camR = cv2.VideoCapture(1) # Cam R
+camR = cv2.VideoCapture(0) # Cam R
+camL = cv2.VideoCapture(1) # Cam L
 
 
-cv2.namedWindow("Cam L")
 cv2.namedWindow("Cam R")
+cv2.namedWindow("Cam L")
 
-img_counter = 0
+img_counter = 5
 
 while True:
-    retL, frameL = camL.read()
     retR, frameR = camR.read()
-    cv2.imshow("Cam L", frameL)
+    retL, frameL = camL.read()
     cv2.imshow("Cam R", frameR)
-    if not retL or not retR:
+    cv2.imshow("Cam L", frameL)
+    if not retR or not retL:
         break
     k = cv2.waitKey(1)
 
@@ -24,11 +24,11 @@ while True:
         break
     elif k%256 == 32:
         # SPACE pressed
-        img_name = "opencv_frameL_{}.png".format(img_counter)
-        cv2.imwrite(img_name, frameL)
-        print("{} written!".format(img_name))
-        img_name = "opencv_frameR_{}.png".format(img_counter)
+        img_name = "Image/opencv_frameR_{}.png".format(img_counter)
         cv2.imwrite(img_name, frameR)
+        print("{} written!".format(img_name))
+        img_name = "Image/opencv_frameL_{}.png".format(img_counter)
+        cv2.imwrite(img_name, frameL)
         print("{} written!".format(img_name))
         
         img_counter += 1
