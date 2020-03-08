@@ -33,6 +33,7 @@ while True:
         
         img_counter += 1
 
-cam.release()
+camR.release()
+camL.release()
 
 cv2.destroyAllWindows()
