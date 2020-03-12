@@ -12,16 +12,18 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setup(stepPin, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(dirPin, GPIO.OUT, initial=GPIO.HIGH)
 
+print("Going forward")
 for i in range (200):
     GPIO.output(stepPin, GPIO.HIGH)
     time.sleep(0.0005)
     GPIO.output(stepPin, GPIO.LOW)
     time.sleep(0.0005)
 
+print("Going backwards")
 # Go backwards
 GPIO.output(dirPin, GPIO.LOW)
 
-for i in range (200):
+for i in range (400):
     GPIO.output(stepPin, GPIO.HIGH)
     time.sleep(0.0005)
     GPIO.output(stepPin, GPIO.LOW)
