@@ -23,10 +23,6 @@ class Stepper:
         GPIO.setup(self.stepPin, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(self.dirPin, GPIO.OUT, initial=GPIO.LOW)
 
-    def outOfBounds(self):
-        if (self.stepperPos <= self.stepperPosMin) or (self.stepperPos >= self.stepperPosMax):
-            return True
-
     def givePulse(self):
         GPIO.output(self.stepPin, GPIO.HIGH)
         time.sleep(steps)
@@ -35,7 +31,7 @@ class Stepper:
 
     def tiltFwd(self):
         GPIO.output(self.dirPin, GPIO.LOW)
-        if self.outOfBounds():
+        if self.stepperPos <= self.stepperPosMin:
             print("Max forward angle")
         else:
             self.givePulse()
@@ -43,7 +39,7 @@ class Stepper:
 
     def tiltBwd(self):
         GPIO.output(self.dirPin, GPIO.HIGH)
-        if self.outOfBounds():
+        if self.stepperPos >= self.stepperPosMax:
             print("Max backwards angle")
         else:
             self.givePulse()
