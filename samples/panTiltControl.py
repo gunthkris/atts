@@ -5,7 +5,6 @@ import time
 
 # set pin numbers to the board's
 GPIO.setmode(GPIO.BOARD)
-steps = 1e-5 # Speed of pulse in seconds
 
 class Stepper:
 
@@ -14,7 +13,7 @@ class Stepper:
     stepperSteps = 1.8 # Default at full step
     stepperPosMin = -45.0 # 1.8 deg with full step (45 deg max)
     stepperPosMax = 45.0 # same
-    steps = 0.0005
+    pulseWidth = 100e-6 # Speed of pulse in seconds
 
     # Define pins for step and direction
     def __init__(self, stepPin, dirPin):
@@ -25,9 +24,9 @@ class Stepper:
 
     def givePulse(self):
         GPIO.output(self.stepPin, GPIO.HIGH)
-        time.sleep(steps)
+        time.sleep(self.pulseWidth)
         GPIO.output(self.stepPin, GPIO.LOW)
-        time.sleep(steps)
+        time.sleep(self.pulseWidth)
 
     def tiltFwd(self):
         GPIO.output(self.dirPin, GPIO.LOW)
