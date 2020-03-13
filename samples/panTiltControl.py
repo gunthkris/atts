@@ -5,7 +5,7 @@ import time
 
 # set pin numbers to the board's
 GPIO.setmode(GPIO.BOARD)
-steps = 0.0005 # Speed of pulse in seconds
+steps = 0.01 # Speed of pulse in seconds
 
 class Stepper:
 
