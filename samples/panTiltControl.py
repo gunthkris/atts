@@ -10,7 +10,7 @@ steps = 0.0005 # Speed of pulse in seconds
 class Stepper:
 
     microStep = 'FS'
-    stepperPos = 0
+    stepperPos = 0.0
     stepperSteps = 1.8 # Default at full step
     stepperPosMin = -45.0 # 1.8 deg with full step (45 deg max)
     stepperPosMax = 45.0 # same
@@ -23,49 +23,47 @@ class Stepper:
         GPIO.setup(self.stepPin, GPIO.OUT, initial=GPIO.LOW)
         GPIO.setup(self.dirPin, GPIO.OUT, initial=GPIO.LOW)
 
-    def outOBounds:
-        if stepperPos <= stepperPosMin or stepperPos >= stepperPosMax
-            return true
+    def outOfBounds(self):
+        if (self.stepperPos <= self.stepperPosMin) or (self.stepperPos >= self.stepperPosMax):
+            return True
 
-    def givePulse:
-        GPIO.output(stepPin, GPIO.HIGH)
+    def givePulse(self):
+        GPIO.output(self.stepPin, GPIO.HIGH)
         time.sleep(steps)
-        GPIO.output(stepPin, GPIO.LOW)
+        GPIO.output(self.stepPin, GPIO.LOW)
         time.sleep(steps)
 
-    def tiltFwd:
-        GPIO.output(dirPin, GPIO.LOW)
-        if outOfBounds():
-            break
+    def tiltFwd(self):
+        GPIO.output(self.dirPin, GPIO.LOW)
+        if self.outOfBounds():
             print("Max forward angle")
         else:
-            givePulse()
-            stepperPos -= stepperSteps
+            self.givePulse()
+            self.stepperPos -= self.stepperSteps
 
-    def tiltBwd:
-        GPIO.output(dirPin, GPIO.HIGH)
-        if outOfBounds():
-            break
+    def tiltBwd(self):
+        GPIO.output(self.dirPin, GPIO.HIGH)
+        if self.outOfBounds():
             print("Max backwards angle")
         else:
-            givePulse()
-            stepperPos += stepperSteps
+            self.givePulse()
+            self.stepperPos += self.stepperSteps
 
-tiltStepper = Stepper(19, 21)
+tilt = Stepper(19 , 21)
 
 while (1):
     print("Going forward")
     for i in range(200):
-        tiltStepper.tiltFwd()
-        print(tiltStepper.stepperPos)
+        tilt.tiltFwd()
+        print(tilt.stepperPos)
 
     time.sleep(1)
     print("Going backwards")
     # Go backwards
 
     for i in range(200):
-        tiltStepper.tiltBwd()
-        print(tiltStepper.stepperPos)
+        tilt.tiltBwd()
+        print(tilt.stepperPos)
 
     time.sleep(1)
 
