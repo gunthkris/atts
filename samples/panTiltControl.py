@@ -50,16 +50,18 @@ while (1):
     print("Going forward")
     for i in range(200):
         tilt.tiltFwd()
+        time.sleep(0.1)
         print(tilt.stepperPos)
 
-    time.sleep(1)
+    time.sleep(0.5)
     print("Going backwards")
     # Go backwards
 
     for i in range(200):
         tilt.tiltBwd()
+        time.sleep(0.1)
         print(tilt.stepperPos)
 
-    time.sleep(1)
+    time.sleep(0.5)
 
 GPIO.cleanup()
