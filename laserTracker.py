@@ -6,7 +6,7 @@ import cv2 as cv
 import time
 import sys
 import imutils
-import panTiltControl  # Our Pan and Tilt Controller
+import panTiltControl as ptc  # Our Pan and Tilt Controller
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
@@ -46,11 +46,6 @@ left.set(cv.CAP_PROP_FRAME_HEIGHT, maxFrameHeight)
 
 # allow the camera to warm up
 time.sleep(2.0)
-
-# Initiate Stepper Motors with pin numbers
-# Default pins for the pan and tilt stepper motor driver
-tilt = Stepper(19, 21)
-pan = Stepper(22, 24)
 
 
 def detectTargetXYcoord(frame, cnts, fdX, fdY, pts, direction):
@@ -162,13 +157,13 @@ while (True):
     # Move Turret based on location of target
     if targetDetected:
         if lx > maxFrameWidth/2:
-            pan.rotateCW()
+            ptc.pan.rotateCW()
         else:
-            pan.rotateCCW()
+            ptc.pan.rotateCCW()
         if ly > maxFrameHeight/2:
-            tilt.rotateCCW()
+            ptc.tilt.rotateCCW()
         else:
-            tilt.rotateCW()
+            ptc.tilt.rotateCW()
     else:
         print("No target")
 
