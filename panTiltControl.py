@@ -1,4 +1,9 @@
-# Testing Pan and Tilt
+# Pan and Tilt Module
+# ===================
+# Be sure to position the motors to their "default" position
+# before running this module or risk your motors rotating past
+# where they're not suppose to rotate to, thus breaking your
+# mechanism.
 
 import RPi.GPIO as GPIO
 import time
@@ -10,11 +15,11 @@ GPIO.setmode(GPIO.BOARD)
 class Stepper:
     # Class variables
     microStep = ['Full Step', 'Half Step', 'Quarter step', 'Eighth Step', 'Sixteenth Step']
-    stepperPos = 0.0
+    stepperPos = 0.0 # Initial position, (which is the position the motor was turned on)
     stepperSteps = 1.8 # Default at full step @ 1.8 deg
     stepperPosMin = -45.0 # -45 deg max, can be changed
     stepperPosMax = 45.0 # 45 deg max, can be changed
-    pulseWidth = 4e-3 # Speed of pulse in seconds, lower number = faster
+    pulseWidth = 4e-3 # Speed of pulse in seconds, lower number = faster but may skip
 
     # Define pins for step and direction
     def __init__(self, stepPin, dirPin):
@@ -45,9 +50,12 @@ class Stepper:
             self.givePulse()
             self.stepperPos += self.stepperSteps
 
+# Default pins for the pan and tilt stepper motor driver
 tilt = Stepper(19 , 21)
 pan = Stepper(22, 24)
 
+# To test out the Pan and Tilt stepper motors, uncomment
+"""
 while (1):
 
     print("Tilting forward")
@@ -88,3 +96,4 @@ while (1):
     time.sleep(0.5)
 
 GPIO.cleanup()
+"""
