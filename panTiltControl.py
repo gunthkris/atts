@@ -14,7 +14,7 @@ class Stepper:
     stepperSteps = 1.8 # Default at full step @ 1.8 deg
     stepperPosMin = -45.0 # -45 deg max, can be changed
     stepperPosMax = 45.0 # 45 deg max, can be changed
-    pulseWidth = 500e-6 # Speed of pulse in seconds, lower number = faster
+    pulseWidth = 10e-3 # Speed of pulse in seconds, lower number = faster
 
     # Define pins for step and direction
     def __init__(self, stepPin, dirPin):
@@ -53,7 +53,6 @@ while (1):
     print("Tilting forward")
     for i in range(70):
         tilt.rotateCCW()
-        time.sleep(0.001)
         print(tilt.stepperPos)
     time.sleep(0.5)
 
@@ -61,13 +60,11 @@ while (1):
     # Go backwards
     for i in range(70):
         tilt.rotateCW()
-        time.sleep(0.001)
         print(tilt.stepperPos)
     time.sleep(0.5)
 
     while (math.floor(tilt.stepperPos)):
         tilt.rotateCCW()
-        time.sleep(0.001)
         print(tilt.stepperPos)
     time.sleep(0.5)
 
@@ -75,7 +72,6 @@ while (1):
     # Go backwards
     for i in range(70):
         pan.rotateCCW()
-        time.sleep(0.001)
         print(pan.stepperPos)
     time.sleep(0.5)
 
@@ -83,13 +79,11 @@ while (1):
     # Go backwards
     for i in range(70):
         pan.rotateCW()
-        time.sleep(0.001)
         print(pan.stepperPos)
     time.sleep(0.5)
 
     while (math.floor(pan.stepperPos)):
         pan.rotateCCW()
-        time.sleep(0.001)
         print(pan.stepperPos)
     time.sleep(0.5)
 
