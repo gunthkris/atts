@@ -16,11 +16,10 @@ ap.add_argument("-b", "--buffer", type=int, default=10,
                 help="max buffer size")
 args = vars(ap.parse_args())
 
-# define the lower and upper boundaries of the "green"
-# ball in the HSV color space, then initialize the
-# list of tracked points (180, 255, 255) max values
-greenLower = (0, 86, 120)
-greenUpper = (255, 255, 255)
+# =Lower and upper boundaries of the "reen laser pointer
+# (180, 255, 255) max values
+greenLower = (37, 6, 215)
+greenUpper = (77, 77, 255)
 
 # initialize the list of tracked points, the frame counter,
 # and the coordinate deltas
