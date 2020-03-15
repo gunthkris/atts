@@ -45,10 +45,10 @@ left.set(cv.CAP_PROP_FRAME_HEIGHT, 480)  # float
 # allow the camera to warm up
 time.sleep(2.0)
 
-def trackedObjectXYcoord(frame, cnts, fdX, fdY, pts, direction):
+def detectTargetXYcoord(frame, cnts, fdX, fdY, pts, direction):
     # Set default (x, y) position if no target on screen
     (cx, cy) = (0, 0)
-    objDetected = False
+    targetDetected = False
     # only proceed if at least one contour was found
     if len(cnts) > 0:
         # find the largest contour in the mask, then use
@@ -60,7 +60,7 @@ def trackedObjectXYcoord(frame, cnts, fdX, fdY, pts, direction):
         center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
         (cx, cy) = center
 
-        objDetected = True
+        targetDetected = True
 
         # only proceed if the radius meets a minimum size
         if radius > 7:
@@ -108,7 +108,7 @@ def trackedObjectXYcoord(frame, cnts, fdX, fdY, pts, direction):
         # otherwise, compute the thickness of the line and draw the connecting lines
         thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
         cv.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
-    return (fdX, fdY, pts, direction, cx, cy, objDetected)
+    return (fdX, fdY, pts, direction, cx, cy, targetDetected)
 
 # MAIN PROGRAM LOOP
 while (True):
@@ -133,23 +133,28 @@ while (True):
     leftcenter = None
 
     # Call function for left frame
-    (ldX, ldY, lpts, ldirection, lx, ly, targetDetected) = trackedObjectXYcoord(
+    (ldX, ldY, lpts, ldirection, lx, ly, targetDetected) = detectTargetXYcoord(
         leftFrame, leftcnts, ldX, ldY, lpts, ldirection)
     
     # Show the movement deltas and the direction of movement on the frame
     # If a target has been detected
-    if (targetDetected):
-        print("With detection: {}, {}".format(lx, ly))
+    if targetDetected:
+        # print("With detection: {}, {}".format(lx, ly))
         targetText = "Target Detected"
     else:
-        print("Without detection: {}, {}".format(lx, ly))
+        # print("Without detection: {}, {}".format(lx, ly))
         targetText = "Target Lost"
-
     cv.putText(leftFrame, ldirection, (10, 30), cv.FONT_HERSHEY_SIMPLEX,
                0.65, (0, 0, 255), 3)
-    cv.putText(leftFrame, "x: {}, y: {}, {}".format(lx, ly, targetText),
+    cv.putText(leftFrame, "x: {}, y: {} {}".format(lx, ly, targetText),
                (10, leftFrame.shape[0] - 10), cv.FONT_HERSHEY_SIMPLEX,
                0.65, (0, 0, 255), 1)
+    
+    # Move Turret based on location of target
+    if targetDetected:
+        # stuff
+    else:
+        # stuff
 
     # show the frame to our screen
     cv.imshow("LeftFrame", leftFrame)
