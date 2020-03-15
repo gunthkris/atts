@@ -58,6 +58,8 @@ def trackedObjectXYcoord(frame, cnts, fdX, fdY, pts, direction):
         center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
         (cx, cy) = center
 
+        print("With detection: {}".format(center))
+
         # only proceed if the radius meets a minimum size
         if radius > 7:
             # draw the circle and centroid on the frame,
@@ -131,6 +133,10 @@ while (True):
     # Call function for left frame
     (ldX, ldY, lpts, ldirection, lx, ly) = trackedObjectXYcoord(
         leftFrame, leftcnts, ldX, ldY, lpts, ldirection)
+    
+    if (lx, ly) == (320, 240):
+        print("Without detection: {}".format(center))
+
     # show the movement deltas and the direction of movement on the frame
     cv.putText(leftFrame, ldirection, (10, 30), cv.FONT_HERSHEY_SIMPLEX,
                0.65, (0, 0, 255), 3)
