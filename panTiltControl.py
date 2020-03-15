@@ -2,6 +2,7 @@
 
 import RPi.GPIO as GPIO
 import time
+import math
 
 # set pin numbers to the board's
 GPIO.setmode(GPIO.BOARD)
@@ -50,7 +51,7 @@ pan = Stepper(22, 24)
 while (1):
 
     print("Tilting forward")
-    for i in range(200):
+    for i in range(100):
         tilt.rotateCCW()
         time.sleep(0.1)
         print(tilt.stepperPos)
@@ -58,8 +59,14 @@ while (1):
 
     print("Tilting backwards")
     # Go backwards
-    for i in range(200):
+    for i in range(100):
         tilt.rotateCW()
+        time.sleep(0.1)
+        print(tilt.stepperPos)
+    time.sleep(0.5)
+
+    while (math.floor(tilt.stepperPos)):
+        tilt.rotateCCW()
         time.sleep(0.1)
         print(tilt.stepperPos)
     time.sleep(0.5)
@@ -67,7 +74,7 @@ while (1):
     print("Panning left")
     # Go backwards
     for i in range(200):
-        pan.rotateCW()
+        pan.rotateCCW()
         time.sleep(0.1)
         print(pan.stepperPos)
     time.sleep(0.5)
@@ -76,6 +83,12 @@ while (1):
     # Go backwards
     for i in range(200):
         pan.rotateCW()
+        time.sleep(0.1)
+        print(pan.stepperPos)
+    time.sleep(0.5)
+
+    while (math.floor(pan.stepperPos)):
+        pan.rotateCCW()
         time.sleep(0.1)
         print(pan.stepperPos)
     time.sleep(0.5)
