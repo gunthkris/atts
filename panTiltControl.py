@@ -51,45 +51,45 @@ pan = Stepper(22, 24)
 while (1):
 
     print("Tilting forward")
-    for i in range(100):
+    for i in range(70):
         tilt.rotateCCW()
-        time.sleep(0.1)
+        time.sleep(0.01)
         print(tilt.stepperPos)
     time.sleep(0.5)
 
     print("Tilting backwards")
     # Go backwards
-    for i in range(100):
+    for i in range(70):
         tilt.rotateCW()
-        time.sleep(0.1)
+        time.sleep(0.01)
         print(tilt.stepperPos)
     time.sleep(0.5)
 
     while (math.floor(tilt.stepperPos)):
         tilt.rotateCCW()
-        time.sleep(0.1)
+        time.sleep(0.01)
         print(tilt.stepperPos)
     time.sleep(0.5)
 
     print("Panning left")
     # Go backwards
-    for i in range(200):
+    for i in range(70):
         pan.rotateCCW()
-        time.sleep(0.1)
+        time.sleep(0.01)
         print(pan.stepperPos)
     time.sleep(0.5)
 
     print("Panning right")
     # Go backwards
-    for i in range(200):
+    for i in range(70):
         pan.rotateCW()
-        time.sleep(0.1)
+        time.sleep(0.01)
         print(pan.stepperPos)
     time.sleep(0.5)
 
     while (math.floor(pan.stepperPos)):
         pan.rotateCCW()
-        time.sleep(0.1)
+        time.sleep(0.01)
         print(pan.stepperPos)
     time.sleep(0.5)
 
