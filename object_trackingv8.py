@@ -12,15 +12,15 @@ from matplotlib import pyplot as plt
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-b", "--buffer", type=int, default=54,
+ap.add_argument("-b", "--buffer", type=int, default=10,
                 help="max buffer size")
 args = vars(ap.parse_args())
 
 # define the lower and upper boundaries of the "green"
 # ball in the HSV color space, then initialize the
 # list of tracked points (180, 255, 255) max values
-greenLower = (40, 86, 120)
-greenUpper = (80, 255, 255)
+greenLower = (0, 86, 120)
+greenUpper = (255, 255, 255)
 
 # initialize the list of tracked points, the frame counter,
 # and the coordinate deltas
