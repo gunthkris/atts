@@ -53,7 +53,7 @@ while (1):
     print("Tilting forward")
     for i in range(70):
         tilt.rotateCCW()
-        time.sleep(0.01)
+        time.sleep(0.001)
         print(tilt.stepperPos)
     time.sleep(0.5)
 
@@ -61,13 +61,13 @@ while (1):
     # Go backwards
     for i in range(70):
         tilt.rotateCW()
-        time.sleep(0.01)
+        time.sleep(0.001)
         print(tilt.stepperPos)
     time.sleep(0.5)
 
     while (math.floor(tilt.stepperPos)):
         tilt.rotateCCW()
-        time.sleep(0.01)
+        time.sleep(0.001)
         print(tilt.stepperPos)
     time.sleep(0.5)
 
@@ -75,7 +75,7 @@ while (1):
     # Go backwards
     for i in range(70):
         pan.rotateCCW()
-        time.sleep(0.01)
+        time.sleep(0.001)
         print(pan.stepperPos)
     time.sleep(0.5)
 
@@ -83,13 +83,13 @@ while (1):
     # Go backwards
     for i in range(70):
         pan.rotateCW()
-        time.sleep(0.01)
+        time.sleep(0.001)
         print(pan.stepperPos)
     time.sleep(0.5)
 
     while (math.floor(pan.stepperPos)):
         pan.rotateCCW()
-        time.sleep(0.01)
+        time.sleep(0.001)
         print(pan.stepperPos)
     time.sleep(0.5)
 
