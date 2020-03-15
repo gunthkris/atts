@@ -6,7 +6,7 @@ import cv2 as cv
 import time
 import sys
 import imutils
-import panTiltControl # Our Pan and Tilt Controller
+import panTiltControl  # Our Pan and Tilt Controller
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
@@ -49,8 +49,9 @@ time.sleep(2.0)
 
 # Initiate Stepper Motors with pin numbers
 # Default pins for the pan and tilt stepper motor driver
-tilt = Stepper(19 , 21)
+tilt = Stepper(19, 21)
 pan = Stepper(22, 24)
+
 
 def detectTargetXYcoord(frame, cnts, fdX, fdY, pts, direction):
     # Set default (x, y) position if no target on screen
@@ -117,6 +118,7 @@ def detectTargetXYcoord(frame, cnts, fdX, fdY, pts, direction):
         cv.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
     return (fdX, fdY, pts, direction, cx, cy, targetDetected)
 
+
 # MAIN PROGRAM LOOP
 while (True):
     # grab the current frame
@@ -142,7 +144,7 @@ while (True):
     # Call function for left frame
     (ldX, ldY, lpts, ldirection, lx, ly, targetDetected) = detectTargetXYcoord(
         leftFrame, leftcnts, ldX, ldY, lpts, ldirection)
-    
+
     # Show the movement deltas and the direction of movement on the frame
     # If a target has been detected
     if targetDetected:
@@ -156,7 +158,7 @@ while (True):
     cv.putText(leftFrame, "x: {}, y: {} {}".format(lx, ly, targetText),
                (10, leftFrame.shape[0] - 10), cv.FONT_HERSHEY_SIMPLEX,
                0.65, (0, 0, 255), 1)
-    
+
     # Move Turret based on location of target
     if targetDetected:
         if lx > maxFrameWidth/2:
