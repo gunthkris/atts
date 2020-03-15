@@ -39,8 +39,10 @@ if not left.isOpened():
 left.set(5, 30)
 
 # Reduce resolution
-left.set(cv.CAP_PROP_FRAME_WIDTH, 640)  # float
-left.set(cv.CAP_PROP_FRAME_HEIGHT, 480)  # float
+maxFrameWidth = 640
+maxFrameHeight = 480
+left.set(cv.CAP_PROP_FRAME_WIDTH, maxFrameWidth)
+left.set(cv.CAP_PROP_FRAME_HEIGHT, maxFrameHeight)
 
 # allow the camera to warm up
 time.sleep(2.0)
@@ -152,9 +154,16 @@ while (True):
     
     # Move Turret based on location of target
     if targetDetected:
-        # stuff
+        if lx > maxFrameWidth/2:
+            pan.rotateCW()
+        else:
+            pan.rotateCCW()
+        if ly > maxFrameHeight/2:
+            tilt.rotateCCW()
+        else:
+            tilt.rotateCW()
     else:
-        # stuff
+        print("No target")
 
     # show the frame to our screen
     cv.imshow("LeftFrame", leftFrame)
@@ -164,7 +173,7 @@ while (True):
     if key == ord("q"):
         break
 
-        counter += 1
+    counter += 1
 
 # release the camera
 left.release()
