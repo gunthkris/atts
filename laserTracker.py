@@ -155,17 +155,17 @@ while (True):
                0.65, (0, 0, 255), 1)
 
     # Move Turret based on location of target
-    if targetDetected:
-        if lx > maxFrameWidth/2:
-            ptc.pan.rotateCW()
-        else:
-            ptc.pan.rotateCCW()
-        if ly > maxFrameHeight/2:
-            ptc.tilt.rotateCCW()
-        else:
-            ptc.tilt.rotateCW()
-    else:
-        print("No target")
+    # if targetDetected:
+    #     if lx > maxFrameWidth/2:
+    #         ptc.pan.rotateCW()
+    #     else:
+    #         ptc.pan.rotateCCW()
+    #     if ly > maxFrameHeight/2:
+    #         ptc.tilt.rotateCCW()
+    #     else:
+    #         ptc.tilt.rotateCW()
+    # else:
+    #     print("No target")
 
     # show the frame to our screen
     cv.imshow("LeftFrame", leftFrame)
