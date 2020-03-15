@@ -47,6 +47,11 @@ left.set(cv.CAP_PROP_FRAME_HEIGHT, maxFrameHeight)
 # allow the camera to warm up
 time.sleep(2.0)
 
+# Initiate Stepper Motors with pin numbers
+# Default pins for the pan and tilt stepper motor driver
+tilt = Stepper(19 , 21)
+pan = Stepper(22, 24)
+
 def detectTargetXYcoord(frame, cnts, fdX, fdY, pts, direction):
     # Set default (x, y) position if no target on screen
     (cx, cy) = (0, 0)
