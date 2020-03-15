@@ -14,7 +14,7 @@ class Stepper:
     stepperSteps = 1.8 # Default at full step @ 1.8 deg
     stepperPosMin = -45.0 # -45 deg max, can be changed
     stepperPosMax = 45.0 # 45 deg max, can be changed
-    pulseWidth = 2.5e-3 # Speed of pulse in seconds, lower number = faster
+    pulseWidth = 4e-3 # Speed of pulse in seconds, lower number = faster
 
     # Define pins for step and direction
     def __init__(self, stepPin, dirPin):
