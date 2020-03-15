@@ -26,6 +26,7 @@ counter = 0
 (ldX, ldY) = (0, 0)
 (lx, ly) = (0, 0)
 ldirection = ""
+targetDetected = False
 
 # Grab a reference to the video file
 left = cv.VideoCapture(0, cv.CAP_V4L2)
@@ -46,7 +47,8 @@ time.sleep(2.0)
 
 def trackedObjectXYcoord(frame, cnts, fdX, fdY, pts, direction):
     # Set default (x, y) position if no target on screen
-    (cx, cy) = (320, 240)
+    (cx, cy) = (0, 0)
+    objDetected = False
     # only proceed if at least one contour was found
     if len(cnts) > 0:
         # find the largest contour in the mask, then use
@@ -58,7 +60,7 @@ def trackedObjectXYcoord(frame, cnts, fdX, fdY, pts, direction):
         center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
         (cx, cy) = center
 
-        print("With detection: {}".format(center))
+        objDetected = True
 
         # only proceed if the radius meets a minimum size
         if radius > 7:
@@ -106,7 +108,7 @@ def trackedObjectXYcoord(frame, cnts, fdX, fdY, pts, direction):
         # otherwise, compute the thickness of the line and draw the connecting lines
         thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
         cv.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
-    return (fdX, fdY, pts, direction, cx, cy)
+    return (fdX, fdY, pts, direction, cx, cy, objDetected)
 
 # MAIN PROGRAM LOOP
 while (True):
@@ -131,16 +133,21 @@ while (True):
     leftcenter = None
 
     # Call function for left frame
-    (ldX, ldY, lpts, ldirection, lx, ly) = trackedObjectXYcoord(
+    (ldX, ldY, lpts, ldirection, lx, ly, targetDetected) = trackedObjectXYcoord(
         leftFrame, leftcnts, ldX, ldY, lpts, ldirection)
     
-    if (lx, ly) == (320, 240):
+    # Show the movement deltas and the direction of movement on the frame
+    # If a target has been detected
+    if (targetDetected):
+        print("With detection: {}, {}".format(lx, ly))
+        targetText = "Target Detected"
+    else:
         print("Without detection: {}, {}".format(lx, ly))
+        targetText = "Target Lost"
 
-    # show the movement deltas and the direction of movement on the frame
     cv.putText(leftFrame, ldirection, (10, 30), cv.FONT_HERSHEY_SIMPLEX,
                0.65, (0, 0, 255), 3)
-    cv.putText(leftFrame, "x: {}, y: {}".format(lx, ly),
+    cv.putText(leftFrame, "x: {}, y: {}, {}".format(lx, ly, targetText),
                (10, leftFrame.shape[0] - 10), cv.FONT_HERSHEY_SIMPLEX,
                0.65, (0, 0, 255), 1)
 
