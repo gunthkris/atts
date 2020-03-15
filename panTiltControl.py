@@ -45,7 +45,7 @@ class Stepper:
             self.stepperPos += self.stepperSteps
 
 tilt = Stepper(19 , 21)
-pan = Stepper(27, 29)
+pan = Stepper(22, 24)
 
 while (1):
 
