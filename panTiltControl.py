@@ -7,13 +7,13 @@ import time
 GPIO.setmode(GPIO.BOARD)
 
 class Stepper:
-
-    microStep = 'FS'
+    # Class variables
+    microStep = ['Full Step', 'Half Step', 'Quarter step', 'Eighth Step', 'Sixteenth Step']
     stepperPos = 0.0
-    stepperSteps = 1.8 # Default at full step
-    stepperPosMin = -45.0 # 1.8 deg with full step (45 deg max)
-    stepperPosMax = 45.0 # same
-    pulseWidth = 100e-6 # Speed of pulse in seconds
+    stepperSteps = 1.8 # Default at full step @ 1.8 deg
+    stepperPosMin = -45.0 # -45 deg max, can be changed
+    stepperPosMax = 45.0 # 45 deg max, can be changed
+    pulseWidth = 500e-6 # Speed of pulse in seconds, lower number = faster
 
     # Define pins for step and direction
     def __init__(self, stepPin, dirPin):
@@ -28,7 +28,7 @@ class Stepper:
         GPIO.output(self.stepPin, GPIO.LOW)
         time.sleep(self.pulseWidth)
 
-    def tiltFwd(self):
+    def rotateCCW(self):
         GPIO.output(self.dirPin, GPIO.LOW)
         if self.stepperPos <= self.stepperPosMin:
             print("Max forward angle")
@@ -36,7 +36,7 @@ class Stepper:
             self.givePulse()
             self.stepperPos -= self.stepperSteps
 
-    def tiltBwd(self):
+    def rotateCW(self):
         GPIO.output(self.dirPin, GPIO.HIGH)
         if self.stepperPos >= self.stepperPosMax:
             print("Max backwards angle")
@@ -45,23 +45,39 @@ class Stepper:
             self.stepperPos += self.stepperSteps
 
 tilt = Stepper(19 , 21)
+pan = Stepper(27, 29)
 
 while (1):
-    print("Going forward")
+
+    print("Tilting forward")
     for i in range(200):
-        tilt.tiltFwd()
+        tilt.rotateCCW()
         time.sleep(0.1)
         print(tilt.stepperPos)
-
     time.sleep(0.5)
-    print("Going backwards")
-    # Go backwards
 
+    print("Tilting backwards")
+    # Go backwards
     for i in range(200):
-        tilt.tiltBwd()
+        tilt.rotateCW()
         time.sleep(0.1)
         print(tilt.stepperPos)
+    time.sleep(0.5)
 
+    print("Panning left")
+    # Go backwards
+    for i in range(200):
+        pan.rotateCW()
+        time.sleep(0.1)
+        print(pan.stepperPos)
+    time.sleep(0.5)
+
+    print("Panning right")
+    # Go backwards
+    for i in range(200):
+        pan.rotateCW()
+        time.sleep(0.1)
+        print(pan.stepperPos)
     time.sleep(0.5)
 
 GPIO.cleanup()
