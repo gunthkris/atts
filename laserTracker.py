@@ -135,7 +135,7 @@ while (True):
         leftFrame, leftcnts, ldX, ldY, lpts, ldirection)
     
     if (lx, ly) == (320, 240):
-        print("Without detection: {}".format(center))
+        print("Without detection: {}, {}".format(lx, ly))
 
     # show the movement deltas and the direction of movement on the frame
     cv.putText(leftFrame, ldirection, (10, 30), cv.FONT_HERSHEY_SIMPLEX,
