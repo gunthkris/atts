@@ -19,7 +19,7 @@ args = vars(ap.parse_args())
 # define the lower and upper boundaries of the "green"
 # ball in the HSV color space, then initialize the
 # list of tracked points (180, 255, 255) max values
-greenLower = (40, 86, 70)
+greenLower = (40, 86, 120)
 greenUpper = (80, 255, 255)
 
 # initialize the list of tracked points, the frame counter,
