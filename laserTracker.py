@@ -124,7 +124,7 @@ while (True):
     # blur frame, and convert it to the HSV
     leftblurred = cv.GaussianBlur(leftFrame, (11, 11), 0)
     lefthsv = cv.cvtColor(leftblurred, cv.COLOR_BGR2HSV)
-
+    print (lefthsv)
     # construct a mask for the color "green", then perform
     # a series of dilations and erosions to remove any small
     # blobs left in the mask
