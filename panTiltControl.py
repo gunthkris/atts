@@ -31,7 +31,8 @@ class Stepper:
     pulseWidth = 250e-6 # Speed of pulse in seconds, lower number = faster but may skip
 
     # Define pins for step and direction
-    def __init__(self, stepPin, dirPin, ms1Pin, ms2Pin, ms3Pin):
+    def __init__(self, name, stepPin, dirPin, ms1Pin, ms2Pin, ms3Pin):
+        self.name = name
         self.stepPin = stepPin
         self.dirPin = dirPin
         self.ms1Pin = ms1Pin
@@ -83,7 +84,7 @@ class Stepper:
         time.sleep(self.pulseWidth)
         GPIO.output(self.stepPin, GPIO.LOW)
         time.sleep(self.pulseWidth)
-        print(self.stepperPos)
+        print("Stepper: {} Pos: {}".format(self.name, self.stepperPos))
         print(self.stepperSteps)
 
     def rotateCCW(self):
@@ -105,8 +106,8 @@ class Stepper:
             self.stepperPos += self.stepperSteps
 
 # Default pins for the pan and tilt stepper motor driver
-tilt = Stepper(19 , 21, 12, 16, 18)
-pan = Stepper(22, 24, 36, 38, 40)
+tilt = Stepper("Tilt", 19 , 21, 12, 16, 18)
+pan = Stepper("Pan", 22, 24, 36, 38, 40)
 
 # To test out the Pan and Tilt stepper motors, uncomment
 """
