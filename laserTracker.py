@@ -16,8 +16,8 @@ args = vars(ap.parse_args())
 
 # =Lower and upper boundaries of the "reen laser pointer
 # (180, 255, 255) max values
-greenLower = (35, 6, 215)
-greenUpper = (95, 50, 255)
+greenLower = (37, 5, 215)
+greenUpper = (77, 88, 255)
 
 # initialize the list of tracked points, the frame counter,
 # and the coordinate deltas
