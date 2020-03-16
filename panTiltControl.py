@@ -84,8 +84,7 @@ class Stepper:
         time.sleep(self.pulseWidth)
         GPIO.output(self.stepPin, GPIO.LOW)
         time.sleep(self.pulseWidth)
-        print("Stepper: {} Pos: {}".format(self.name, self.stepperPos))
-        print(self.stepperSteps)
+        print("Stepper: {} Pos: {} Steps: {}".format(self.name, self.stepperPos, self.stepperSteps))
 
     def rotateCCW(self):
         GPIO.output(self.dirPin, GPIO.LOW)
