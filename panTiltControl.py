@@ -28,7 +28,7 @@ class Stepper:
     stepperSteps = 1.8 # Default at full step @ 1.8 deg (0.9, 0.45, 0.225, 0.1125)
     stepperPosMin = -45.0 # -45 deg max, can be changed
     stepperPosMax = 45.0 # 45 deg max, can be changed
-    pulseWidth = 4e-3 # Speed of pulse in seconds, lower number = faster but may skip
+    pulseWidth = 250e-6 # Speed of pulse in seconds, lower number = faster but may skip
 
     # Define pins for step and direction
     def __init__(self, stepPin, dirPin, ms1Pin, ms2Pin, ms3Pin):
@@ -76,6 +76,7 @@ class Stepper:
             GPIO.output(self.ms1Pin, GPIO.LOW)
             GPIO.output(self.ms2Pin, GPIO.LOW)
             GPIO.output(self.ms3Pin, GPIO.LOW)
+        time.sleep(250e-9) # Wait time to setup steps
 
     def givePulse(self):
         GPIO.output(self.stepPin, GPIO.HIGH)
@@ -85,6 +86,7 @@ class Stepper:
 
     def rotateCCW(self):
         GPIO.output(self.dirPin, GPIO.LOW)
+        time.sleep(250e-9) # Wait time to setup steps
         if self.stepperPos <= self.stepperPosMin:
             print("Max forward angle")
         else:
@@ -93,6 +95,7 @@ class Stepper:
 
     def rotateCW(self):
         GPIO.output(self.dirPin, GPIO.HIGH)
+        time.sleep(250e-9) # Wait time to setup steps
         if self.stepperPos >= self.stepperPosMax:
             print("Max backwards angle")
         else:
