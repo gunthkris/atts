@@ -28,7 +28,7 @@ class Stepper:
     stepperSteps = 1.8 # Default at full step @ 1.8 deg (0.9, 0.45, 0.225, 0.1125)
     stepperPosMin = -45.0 # -45 deg max, can be changed
     stepperPosMax = 45.0 # 45 deg max, can be changed
-    pulseWidth = 250e-6 # Speed of pulse in seconds, lower number = faster but may skip
+    pulseWidth = 4e-3 # Speed of pulse in seconds, lower number = faster but may skip
 
     # Define pins for step and direction
     def __init__(self, name, stepPin, dirPin, ms1Pin, ms2Pin, ms3Pin):
@@ -84,7 +84,7 @@ class Stepper:
         time.sleep(self.pulseWidth)
         GPIO.output(self.stepPin, GPIO.LOW)
         time.sleep(self.pulseWidth)
-        print("Stepper: {} Pos: {} Steps: {}".format(self.name, self.stepperPos, self.stepperSteps))
+        print("{} Pos: {} Step: {}".format(self.name, self.stepperPos, self.stepperSteps))
 
     def rotateCCW(self):
         GPIO.output(self.dirPin, GPIO.LOW)
