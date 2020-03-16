@@ -16,7 +16,7 @@ class Stepper:
     # Class variables
     microStep = ['Full Step', 'Half Step', 'Quarter step', 'Eighth Step', 'Sixteenth Step']
     stepperPos = 0.0 # Initial position, (which is the position the motor was turned on)
-    stepperSteps = 0.225 # Default at full step @ 1.8 deg (0.9, 0.45, 0.225, 0.1125)
+    stepperSteps = 0.1125 # Default at full step @ 1.8 deg (0.9, 0.45, 0.225, 0.1125)
     stepperPosMin = -45.0 # -45 deg max, can be changed
     stepperPosMax = 45.0 # 45 deg max, can be changed
     pulseWidth = 4e-3 # Speed of pulse in seconds, lower number = faster but may skip
