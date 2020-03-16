@@ -40,7 +40,9 @@ left.set(5, 30)
 
 # Reduce resolution
 maxFrameWidth = 640
+cw = maxFrameWidth/2
 maxFrameHeight = 480
+ch = maxFrameHeight/2
 left.set(cv.CAP_PROP_FRAME_WIDTH, maxFrameWidth)
 left.set(cv.CAP_PROP_FRAME_HEIGHT, maxFrameHeight)
 
@@ -156,13 +158,13 @@ while (True):
 
     # Move Turret based on location of target
     if targetDetected and counter > 12:
-        if not lx in range(lx-2, lx+2):
-            if lx < maxFrameWidth/2:
+        if not lx in range(cw-2, cw+2):
+            if lx < cw:
                 ptc.pan.rotateCW()
             else:
                 ptc.pan.rotateCCW()
-        if not ly in range(ly-2, ly+2):
-            if ly < maxFrameHeight/2:
+        if not ly in range(ch-2, ch+2):
+            if ly < ch:
                 ptc.tilt.rotateCCW()
             else:
                 ptc.tilt.rotateCW()
