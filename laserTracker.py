@@ -156,14 +156,16 @@ while (True):
 
     # Move Turret based on location of target
     if targetDetected and counter > 12:
-        if lx < maxFrameWidth/2:
-            ptc.pan.rotateCW()
-        else:
-            ptc.pan.rotateCCW()
-        if ly < maxFrameHeight/2:
-            ptc.tilt.rotateCCW()
-        else:
-            ptc.tilt.rotateCW()
+        if lx not in range(lx-2, lx+2):
+            if lx < maxFrameWidth/2:
+                ptc.pan.rotateCW()
+            else:
+                ptc.pan.rotateCCW()
+        if ly not in range(ly-2, ly+2):
+            if ly < maxFrameHeight/2:
+                ptc.tilt.rotateCCW()
+            else:
+                ptc.tilt.rotateCW()
     else:
         print("No target")
 
