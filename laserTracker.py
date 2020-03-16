@@ -16,7 +16,7 @@ args = vars(ap.parse_args())
 
 # =Lower and upper boundaries of the "reen laser pointer
 # (180, 255, 255) max values
-greenLower = (37, 5, 215)
+greenLower = (37, 6, 215)
 greenUpper = (77, 88, 255)
 
 # initialize the list of tracked points, the frame counter,
@@ -68,7 +68,7 @@ def detectTargetXYcoord(frame, cnts, fdX, fdY, pts, direction):
         targetDetected = True
 
         # only proceed if the radius meets a minimum size
-        if radius > 7:
+        if radius > 5:
             # draw the circle and centroid on the frame,
             # then update the list of tracked points
             cv.circle(frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)
