@@ -26,6 +26,7 @@ counter = 0
 (ldX, ldY) = (0, 0)
 (lx, ly) = (0, 0)
 ldirection = ""
+accuracy = 2  # Pixel accuracy (default = 2)
 targetDetected = False
 
 # Grab a reference to the video file
@@ -48,6 +49,80 @@ left.set(cv.CAP_PROP_FRAME_HEIGHT, maxFrameHeight)
 
 # allow the camera to warm up
 time.sleep(2.0)
+
+# Move Turret based on location of target and center it
+
+
+def centerTarget(targetDetected, counter)
+   if targetDetected and counter > 12:
+        if not cw-accuracy <= lx <= cw+accuracy:
+            if lx < cw:
+                if lx+100 < cw:
+                    ptc.pan.setMicroStep("Full Step")
+                    ptc.pan.rotateCW()
+                elif lx+50 < cw:
+                    ptc.pan.setMicroStep("Half Step")
+                    ptc.pan.rotateCW()
+                elif lx+25 < cw:
+                    ptc.pan.setMicroStep("Quarter Step")
+                    ptc.pan.rotateCW()
+                elif lx+12 < cw:
+                    ptc.pan.setMicroStep("Eighth Step")
+                    ptc.pan.rotateCW()
+                else:
+                    ptc.pan.setMicroStep("Sixteenth Step")
+                    ptc.pan.rotateCW()
+            else:
+                if lx-100 > cw:
+                    ptc.pan.setMicroStep("Full Step")
+                    ptc.pan.rotateCCW()
+                elif lx-50 > cw:
+                    ptc.pan.setMicroStep("Half Step")
+                    ptc.pan.rotateCCW()
+                elif lx-25 > cw:
+                    ptc.pan.setMicroStep("Quarter Step")
+                    ptc.pan.rotateCCW()
+                elif lx-12 > cw:
+                    ptc.pan.setMicroStep("Eighth Step")
+                    ptc.pan.rotateCCW()
+                else:
+                    ptc.pan.setMicroStep("Sixteenth Step")
+                    ptc.pan.rotateCCW()
+        if not ch-accuracy <= ly <= ch+accuracy:
+            if ly < ch:
+                if ly+100 < ch:
+                    ptc.tilt.setMicroStep("Full Step")
+                    ptc.tilt.rotateCCW()
+                elif ly+50 < ch:
+                    ptc.tilt.setMicroStep("Half Step")
+                    ptc.tilt.rotateCCW()
+                elif ly+25 < ch:
+                    ptc.tilt.setMicroStep("Quarter Step")
+                    ptc.tilt.rotateCCW()
+                elif ly+12 < ch:
+                    ptc.tilt.setMicroStep("Eighth Step")
+                    ptc.tilt.rotateCCW()
+                else:
+                    ptc.tilt.setMicroStep("Sixteenth Step")
+                    ptc.tilt.rotateCCW()
+            else:
+                if ly-100 > ch:
+                    ptc.tilt.setMicroStep("Full Step")
+                    ptc.tilt.rotateCW()
+                elif ly-50 < ch:
+                    ptc.tilt.setMicroStep("Half Step")
+                    ptc.tilt.rotateCW()
+                elif ly-25 < ch:
+                    ptc.tilt.setMicroStep("Quarter Step")
+                    ptc.tilt.rotateCW()
+                elif ly-12 < ch:
+                    ptc.tilt.setMicroStep("Eighth Step")
+                    ptc.tilt.rotateCW()
+                else:
+                    ptc.tilt.setMicroStep("Sixteenth Step")
+                    ptc.tilt.rotateCW()
+    else:
+        print("No target")
 
 
 def detectTargetXYcoord(frame, cnts, fdX, fdY, pts, direction):
@@ -156,20 +231,8 @@ while (True):
                (10, leftFrame.shape[0] - 10), cv.FONT_HERSHEY_SIMPLEX,
                0.65, (0, 0, 255), 1)
 
-    # Move Turret based on location of target
-    if targetDetected and counter > 12:
-        if not cw-2 <= lx <= cw+2:
-            if lx < cw:
-                ptc.pan.rotateCW()
-            else:
-                ptc.pan.rotateCCW()
-        if not ch-2 <= ly <= ch+2:
-            if ly < ch:
-                ptc.tilt.rotateCCW()
-            else:
-                ptc.tilt.rotateCW()
-    else:
-        print("No target")
+    # Center the target
+    centerTarget(targetDetected, counter)
 
     # show the frame to our screen
     cv.imshow("LeftFrame", leftFrame)
