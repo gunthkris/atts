@@ -83,12 +83,14 @@ class Stepper:
         time.sleep(self.pulseWidth)
         GPIO.output(self.stepPin, GPIO.LOW)
         time.sleep(self.pulseWidth)
+        print(self.stepperPos)
+        print(self.stepperSteps)
 
     def rotateCCW(self):
         GPIO.output(self.dirPin, GPIO.LOW)
         time.sleep(250e-9) # Wait time to setup steps
         if self.stepperPos <= self.stepperPosMin:
-            print("Max forward angle")
+            print("Minimum angle reached")
         else:
             self.givePulse()
             self.stepperPos -= self.stepperSteps
@@ -97,7 +99,7 @@ class Stepper:
         GPIO.output(self.dirPin, GPIO.HIGH)
         time.sleep(250e-9) # Wait time to setup steps
         if self.stepperPos >= self.stepperPosMax:
-            print("Max backwards angle")
+            print("Maximum angle reached")
         else:
             self.givePulse()
             self.stepperPos += self.stepperSteps
