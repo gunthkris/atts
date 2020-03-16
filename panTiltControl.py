@@ -100,8 +100,8 @@ class Stepper:
             self.stepperPos += self.stepperSteps
 
 # Default pins for the pan and tilt stepper motor driver
-tilt = Stepper(19 , 21)
-pan = Stepper(22, 24)
+tilt = Stepper(19 , 21, 12, 16, 18)
+pan = Stepper(22, 24, 36, 38, 40)
 
 # To test out the Pan and Tilt stepper motors, uncomment
 """
