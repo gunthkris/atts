@@ -50,10 +50,9 @@ left.set(cv.CAP_PROP_FRAME_HEIGHT, maxFrameHeight)
 # allow the camera to warm up
 time.sleep(2.0)
 
+
 # Move Turret based on location of target and center it
-
-
-def centerTarget(targetDetected, counter)
+def centerTarget(targetDetected, counter):
    if targetDetected and counter > 12:
         if not cw-accuracy <= lx <= cw+accuracy:
             if lx < cw:
