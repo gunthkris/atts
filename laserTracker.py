@@ -16,8 +16,8 @@ args = vars(ap.parse_args())
 
 # =Lower and upper boundaries of the "reen laser pointer
 # (180, 255, 255) max values
-greenLower = (37, 6, 215)
-greenUpper = (77, 77, 255)
+greenLower = (35, 6, 215)
+greenUpper = (95, 50, 255)
 
 # initialize the list of tracked points, the frame counter,
 # and the coordinate deltas
@@ -124,7 +124,7 @@ while (True):
     # blur frame, and convert it to the HSV
     leftblurred = cv.GaussianBlur(leftFrame, (11, 11), 0)
     lefthsv = cv.cvtColor(leftblurred, cv.COLOR_BGR2HSV)
-    print (lefthsv)
+
     # construct a mask for the color "green", then perform
     # a series of dilations and erosions to remove any small
     # blobs left in the mask
