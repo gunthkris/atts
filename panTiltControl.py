@@ -21,6 +21,9 @@ import math
 # set pin numbers to the board's
 GPIO.setmode(GPIO.BOARD)
 
+# Arduino pins
+GPIO.setup(36, GPIO.IN) # Loaded
+GPIO.setup(38, GPIO.OUT, initial=GPIO.LOW) # Trigger
 
 class Stepper:
     # Class variables
@@ -130,7 +133,7 @@ pan = Stepper("Pan", 19, 21, 12, 16, 18)
 tilt = Stepper("Tilt", 22, 24, 0, 0, 0) # Using a different driver, no dynamic stepping
 tilt.pulseWidth = 500e-6 # Requires this much pulse for the big tilt motor
 tilt.stepperSteps = 0.05625 # This is 1/32 of a step for the tilt motor
-microStep = "ThirtySecond Step"
+tilt.microStep = "ThirtySecond Step"
 
 # To test out the Pan and Tilt stepper motors, uncomment
 """
