@@ -89,37 +89,39 @@ def centerTarget(targetDetected, counter):
                     ptc.pan.rotateCCW()
         if not ch-accuracy <= ly <= ch+accuracy:
             if ly < ch:
-                if ly+100 < ch:
-                    ptc.tilt.setMicroStep("Full Step")
-                    ptc.tilt.rotateCCW()
-                elif ly+50 < ch:
-                    ptc.tilt.setMicroStep("Half Step")
-                    ptc.tilt.rotateCCW()
-                elif ly+25 < ch:
-                    ptc.tilt.setMicroStep("Quarter Step")
-                    ptc.tilt.rotateCCW()
-                elif ly+12 < ch:
-                    ptc.tilt.setMicroStep("Eighth Step")
-                    ptc.tilt.rotateCCW()
-                else:
-                    ptc.tilt.setMicroStep("Sixteenth Step")
-                    ptc.tilt.rotateCCW()
+                ptc.tilt.rotateCCW()
+                # if ly+100 < ch:
+                #     ptc.tilt.setMicroStep("Full Step")
+                #     ptc.tilt.rotateCCW()
+                # elif ly+50 < ch:
+                #     ptc.tilt.setMicroStep("Half Step")
+                #     ptc.tilt.rotateCCW()
+                # elif ly+25 < ch:
+                #     ptc.tilt.setMicroStep("Quarter Step")
+                #     ptc.tilt.rotateCCW()
+                # elif ly+12 < ch:
+                #     ptc.tilt.setMicroStep("Eighth Step")
+                #     ptc.tilt.rotateCCW()
+                # else:
+                #     ptc.tilt.setMicroStep("Sixteenth Step")
+                #     ptc.tilt.rotateCCW()
             else:
-                if ly-100 > ch:
-                    ptc.tilt.setMicroStep("Full Step")
-                    ptc.tilt.rotateCW()
-                elif ly-50 < ch:
-                    ptc.tilt.setMicroStep("Half Step")
-                    ptc.tilt.rotateCW()
-                elif ly-25 < ch:
-                    ptc.tilt.setMicroStep("Quarter Step")
-                    ptc.tilt.rotateCW()
-                elif ly-12 < ch:
-                    ptc.tilt.setMicroStep("Eighth Step")
-                    ptc.tilt.rotateCW()
-                else:
-                    ptc.tilt.setMicroStep("Sixteenth Step")
-                    ptc.tilt.rotateCW()
+                ptc.tilt.rotateCW()
+                # if ly-100 > ch:
+                #     ptc.tilt.setMicroStep("Full Step")
+                #     ptc.tilt.rotateCW()
+                # elif ly-50 < ch:
+                #     ptc.tilt.setMicroStep("Half Step")
+                #     ptc.tilt.rotateCW()
+                # elif ly-25 < ch:
+                #     ptc.tilt.setMicroStep("Quarter Step")
+                #     ptc.tilt.rotateCW()
+                # elif ly-12 < ch:
+                #     ptc.tilt.setMicroStep("Eighth Step")
+                #     ptc.tilt.rotateCW()
+                # else:
+                #     ptc.tilt.setMicroStep("Sixteenth Step")
+                #     ptc.tilt.rotateCW()
     else:
         print("No target")
 
