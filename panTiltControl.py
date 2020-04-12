@@ -36,7 +36,7 @@ class Stepper:
     stepperPosMin = -45.0  # -45 deg max, can be changed
     stepperPosMax = 45.0  # 45 deg max, can be changed
     pulseWidth = 5e-6  # Speed of pulse in seconds, lower number = faster but may skip
-    noPos = True
+    noPos = True # Disable positioning - caution when enabling. Motor can spin freely regardless of position
 
     # Define pins for step and direction
     def __init__(self, name, stepPin, dirPin, ms1Pin, ms2Pin, ms3Pin):
@@ -113,22 +113,20 @@ class Stepper:
     def rotateCCW(self):
         GPIO.output(self.dirPin, GPIO.LOW)
         time.sleep(250e-9)  # Wait time to setup steps
-        if self.stepperPos <= self.stepperPosMin and self.noPos == True:
+        if self.stepperPos <= self.stepperPosMin and self.noPos == False:
             print("{}: Minimum angle reached".format(self.name))
         else:
             self.givePulse()
             self.stepperPos -= self.stepperSteps
-            round(self.stepperPos, 5)
 
     def rotateCW(self):
         GPIO.output(self.dirPin, GPIO.HIGH)
         time.sleep(250e-9)  # Wait time to setup steps
-        if self.stepperPos >= self.stepperPosMax and self.noPos == True:
+        if self.stepperPos >= self.stepperPosMax and self.noPos == False:
             print("{}: Maximum angle reached".format(self.name))
         else:
             self.givePulse()
             self.stepperPos += self.stepperSteps
-            round(self.stepperPos, 5)
 
 
 # Default pins for the pan and tilt stepper motor driver
