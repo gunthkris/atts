@@ -26,7 +26,7 @@ counter = 0
 (ldX, ldY) = (0, 0)
 (lx, ly) = (0, 0)
 ldirection = ""
-accuracy = 2  # Pixel accuracy (default = 2)
+accuracy = 3  # Pixel accuracy (default = 2)
 targetDetected = False
 
 # Grab a reference to the video file
