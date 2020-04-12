@@ -107,8 +107,8 @@ class Stepper:
         time.sleep(self.pulseWidth)
         GPIO.output(self.stepPin, GPIO.LOW)
         time.sleep(self.pulseWidth)
-        print("{} Pos: {} Step: {} Pulse: {}".format(
-            self.name, self.stepperPos, self.microStep, self.pulseWidth))
+        # print("{} Pos: {} Step: {} Pulse: {}".format(
+        #     self.name, self.stepperPos, self.microStep, self.pulseWidth))
 
     def rotateCCW(self):
         GPIO.output(self.dirPin, GPIO.LOW)
@@ -132,7 +132,7 @@ class Stepper:
 # Default pins for the pan and tilt stepper motor driver
 pan = Stepper("Pan", 19, 21, 12, 16, 18)
 tilt = Stepper("Tilt", 22, 24, 0, 0, 0) # Using a different driver, no dynamic stepping
-tilt.pulseWidth = 300e-6 # Requires this much pulse for the big tilt motor
+tilt.pulseWidth = 500e-6 # Requires this much pulse for the big tilt motor
 tilt.stepperSteps = 0.05625 # This is 1/32 of a step for the tilt motor
 tilt.microStep = "ThirtySecond Step"
 
