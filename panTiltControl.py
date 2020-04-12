@@ -59,7 +59,7 @@ class Stepper:
             self.setSteps = 0.9
         elif microStep == "Quarter Step":
             self.setSteps = 0.45
-        elif smicroStep == "Eighth Step":
+        elif microStep == "Eighth Step":
             self.setSteps = 0.225
         elif microStep == "Sixteenth Step":
             self.setSteps = 0.1125
