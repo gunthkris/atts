@@ -113,7 +113,7 @@ class Stepper:
         GPIO.output(self.dirPin, GPIO.LOW)
         time.sleep(250e-9)  # Wait time to setup steps
         if self.stepperPos <= self.stepperPosMin:
-            print("Minimum angle reached")
+            print("{}: Minimum angle reached".format(self.name))
         else:
             self.givePulse()
             self.stepperPos -= self.stepperSteps
@@ -122,7 +122,7 @@ class Stepper:
         GPIO.output(self.dirPin, GPIO.HIGH)
         time.sleep(250e-9)  # Wait time to setup steps
         if self.stepperPos >= self.stepperPosMax:
-            print("Maximum angle reached")
+            print("{}: Maximum angle reached".format(self.name))
         else:
             self.givePulse()
             self.stepperPos += self.stepperSteps
