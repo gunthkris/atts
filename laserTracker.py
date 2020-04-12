@@ -89,7 +89,7 @@ def centerTarget(targetDetected, counter):
                     ptc.pan.rotateCCW()
         if not ch-accuracy <= ly <= ch+accuracy:
             if ly < ch:
-                ptc.tilt.rotateCCW()
+                ptc.tilt.rotateCW()
                 # if ly+100 < ch:
                 #     ptc.tilt.setMicroStep("Full Step")
                 #     ptc.tilt.rotateCCW()
@@ -106,7 +106,7 @@ def centerTarget(targetDetected, counter):
                 #     ptc.tilt.setMicroStep("Sixteenth Step")
                 #     ptc.tilt.rotateCCW()
             else:
-                ptc.tilt.rotateCW()
+                ptc.tilt.rotateCCW()
                 # if ly-100 > ch:
                 #     ptc.tilt.setMicroStep("Full Step")
                 #     ptc.tilt.rotateCW()
