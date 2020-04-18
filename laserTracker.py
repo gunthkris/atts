@@ -17,11 +17,11 @@ args = vars(ap.parse_args())
 # =Lower and upper boundaries of the "Green laser pointer
 # (180, 255, 255) max values
 # Laser Pointer
-# greenLower = (37, 6, 215)
-# greenUpper = (77, 88, 255)
+greenLower = (37, 6, 215)
+greenUpper = (77, 88, 255)
 # Ball
-greenLower = (40, 125, 70)
-greenUpper = (70, 255, 170)
+# greenLower = (40, 125, 70)
+# greenUpper = (70, 255, 170)
 
 # initialize the list of tracked points, the frame counter,
 # and the coordinate deltas
