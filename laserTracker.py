@@ -14,10 +14,14 @@ ap.add_argument("-b", "--buffer", type=int, default=20,
                 help="max buffer size")
 args = vars(ap.parse_args())
 
-# =Lower and upper boundaries of the "reen laser pointer
+# =Lower and upper boundaries of the "Green laser pointer
 # (180, 255, 255) max values
-greenLower = (37, 6, 215)
-greenUpper = (77, 88, 255)
+# Laser Pointer
+# greenLower = (37, 6, 215)
+# greenUpper = (77, 88, 255)
+# Ball
+greenLower = (37, 77, 70)
+greenUpper = (77, 240, 170)
 
 # initialize the list of tracked points, the frame counter,
 # and the coordinate deltas
