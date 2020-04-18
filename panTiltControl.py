@@ -35,7 +35,7 @@ class Stepper:
     setSteps = 1.8
     stepperPosMin = -45.0  # -45 deg max, can be changed
     stepperPosMax = 45.0  # 45 deg max, can be changed
-    pulseWidth = 5e-6  # Speed of pulse in seconds, lower number = faster but may skip
+    pulseWidth = 50e-6  # Speed of pulse in seconds, lower number = faster but may skip
     noPos = True # Disable positioning - caution when enabling. Motor can spin freely regardless of position
 
     # Define pins for step and direction
