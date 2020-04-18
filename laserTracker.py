@@ -236,7 +236,7 @@ while (True):
     centerTarget(targetDetected, counter)
 
     # show the frame to our screen
-    # cv.imshow("LeftFrame", leftFrame)
+    cv.imshow("LeftFrame", leftFrame)
 
     # if the 'q' key is pressed, stop the loop
     key = cv.waitKey(1) & 0xFF
