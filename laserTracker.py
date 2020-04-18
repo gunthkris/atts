@@ -19,7 +19,7 @@ args = vars(ap.parse_args())
 # Laser Pointer
 # greenLower = (37, 9, 215)
 # greenUpper = (77, 77, 255)
-greenLower = (45, 10, 222)
+greenLower = (45, 3, 222)
 greenUpper = (65, 40, 255)
 # Ball
 # greenLower = (40, 125, 70)
