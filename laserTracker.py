@@ -19,8 +19,8 @@ args = vars(ap.parse_args())
 # Laser Pointer
 # greenLower = (37, 9, 215)
 # greenUpper = (77, 77, 255)
-greenLower = (45, 9, 222)
-greenUpper = (65, 77, 255)
+greenLower = (45, 50, 222)
+greenUpper = (65, 80, 255)
 # Ball
 # greenLower = (40, 125, 70)
 # greenUpper = (70, 255, 170)
@@ -150,7 +150,7 @@ def detectTargetXYcoord(frame, cnts, fdX, fdY, pts, direction):
         targetDetected = True
 
         # only proceed if the radius meets a minimum size
-        if radius > 10:
+        if radius > 3:
             # draw the circle and centroid on the frame,
             # then update the list of tracked points
             cv.circle(frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)
