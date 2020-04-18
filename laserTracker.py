@@ -150,7 +150,7 @@ def detectTargetXYcoord(frame, cnts, fdX, fdY, pts, direction):
         targetDetected = True
 
         # only proceed if the radius meets a minimum size
-        if radius > 3:
+        if radius > 10:
             # draw the circle and centroid on the frame,
             # then update the list of tracked points
             cv.circle(frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)
