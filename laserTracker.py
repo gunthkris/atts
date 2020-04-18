@@ -20,7 +20,7 @@ args = vars(ap.parse_args())
 # greenLower = (37, 9, 215)
 # greenUpper = (77, 77, 255)
 greenLower = (45, 9, 220)
-greenUpper = (65, 60, 255)
+greenUpper = (65, 77, 255)
 # Ball
 # greenLower = (40, 125, 70)
 # greenUpper = (70, 255, 170)
